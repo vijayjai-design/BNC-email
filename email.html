@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f4ee">
+  <title>BNC | A little more in your inbox</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #1d312a;
+      --muted: #627268;
+      --paper: #f6f4ee;
+      --line: #d7dfd5;
+      --green: #264d3b;
+      --lime: #d9e8a4;
+      --white: #fffefa;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, Helvetica, sans-serif; line-height: 1.55; }
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 48px)); margin: 0 auto; }
+    .announcement { padding: 9px 24px; background: var(--green); color: #fff; text-align: center; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .logo { font-family: Georgia, serif; font-size: 30px; font-weight: bold; letter-spacing: -.08em; text-decoration: none; line-height: 1; }
+    .logo span { color: #91a955; }
+    .header-note, .eyebrow, .section-number { font-size: 10px; font-weight: bold; letter-spacing: .16em; text-transform: uppercase; }
+    .header-note { color: var(--muted); text-align: right; }
+    .hero { display: grid; grid-template-columns: 1fr 1fr; gap: 70px; align-items: center; padding: 72px 0 84px; }
+    .eyebrow { color: #718848; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, .mail-title { font-family: Georgia, 'Times New Roman', serif; font-weight: normal; letter-spacing: -.045em; line-height: 1.06; }
+    h1 { max-width: 560px; margin: 20px 0; font-size: clamp(48px, 6vw, 78px); }
+    h1 em { color: #829c4d; font-weight: normal; }
+    .intro { max-width: 460px; color: var(--muted); font-size: 16px; }
+    .benefit { display: flex; align-items: center; gap: 14px; margin-top: 32px; font-size: 13px; font-weight: bold; }
+    .benefit-icon { display: grid; place-items: center; width: 42px; height: 42px; flex: none; border: 1px solid #afbf96; border-radius: 50%; color: var(--green); font-size: 18px; }
+    .signup { background: var(--white); padding: 34px; border: 1px solid #e3e7dd; box-shadow: 0 16px 50px #263e2910; }
+    .signup h2 { margin: 8px 0 10px; font-size: 34px; }
+    .signup > p { color: var(--muted); font-size: 13px; }
+    .field { display: block; margin: 18px 0 0; font-size: 12px; font-weight: bold; }
+    .field span { color: var(--muted); font-weight: normal; }
+    input[type="email"], input[type="text"] { display: block; width: 100%; margin-top: 7px; padding: 14px; border: 1px solid #cbd5c9; border-radius: 0; background: #fff; color: var(--ink); font: inherit; font-size: 14px; }
+    input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #89a558; outline-offset: 3px; }
+    .consent { display: flex; align-items: flex-start; gap: 9px; margin: 18px 0; color: #53665b; font-size: 12px; }
+    .consent input { margin: 4px 0 0; accent-color: var(--green); }
+    button, .button { display: inline-block; border: 0; background: var(--green); color: white; padding: 15px 20px; font: inherit; font-size: 12px; font-weight: bold; letter-spacing: .04em; text-align: center; text-decoration: none; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .6; }
+    .signup button { width: 100%; }
+    .fine-print { margin: 14px 0 0; color: var(--muted); font-size: 11px; }
+    .demo-note { padding: 12px 14px; background: #f1f5e8; color: #475f3c; font-size: 12px; }
+    #form-status:empty { display: none; }
+    #form-status { margin: 14px 0 0; color: var(--green); font-size: 12px; font-weight: bold; }
+    .strategy { padding: 78px 0 88px; background: #e9eee4; }
+    .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; margin-bottom: 34px; }
+    .section-heading h2 { margin: 12px 0 0; font-size: clamp(36px, 4vw, 52px); }
+    .section-heading > p { max-width: 355px; margin-bottom: 3px; color: var(--muted); font-size: 14px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .card { padding: 27px; background: var(--white); border: 1px solid #dde5d9; }
+    .card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; color: #819663; }
+    .card-icon { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #eff4e5; color: var(--green); font-size: 20px; }
+    .card h3 { margin-bottom: 20px; font-family: Georgia, serif; font-size: 24px; font-weight: normal; line-height: 1.15; }
+    .card dl { margin: 0; }
+    .card dt { margin-top: 17px; color: #718848; font-size: 10px; font-weight: bold; letter-spacing: .12em; text-transform: uppercase; }
+    .card dd { margin: 5px 0 0; color: #5b6b60; font-size: 13px; }
+    .preview { padding: 80px 0 90px; }
+    .preview .section-heading { align-items: center; }
+    .mailbox { max-width: 810px; margin: 0 auto; border: 1px solid #d5ded2; background: var(--white); box-shadow: 0 18px 55px #263e2910; }
+    .mailbar { display: flex; align-items: center; gap: 7px; padding: 16px 20px; background: #e8eee6; border-bottom: 1px solid #d5ded2; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #aab9a8; }
+    .mailbar-label { flex: 1; margin-right: 22px; color: #7a8a7c; font-size: 10px; font-weight: bold; letter-spacing: .12em; text-align: center; text-transform: uppercase; }
+    .mail-meta { padding: 22px 32px; border-bottom: 1px solid #e5e9e3; font-size: 13px; }
+    .mail-meta p { margin: 4px 0; }
+    .mail-meta span { display: inline-block; width: 70px; color: #7b8b7e; }
+    .email-body { max-width: 600px; margin: auto; padding: 48px 45px; }
+    .email-body .logo { display: inline-block; margin-bottom: 40px; }
+    .mail-title { margin: 12px 0 24px; font-size: clamp(35px, 5vw, 51px); }
+    .email-body p { color: #53665b; font-size: 14px; }
+    .email-body .button { margin: 12px 0 10px; }
+    .landing-note { font-size: 11px !important; }
+    .mail-footer { padding: 36px 45px; background: var(--green); color: #f4f7ed; }
+    .mail-footer-inner { max-width: 510px; margin: auto; }
+    .mail-footer .logo { display: inline-block; margin-bottom: 12px; }
+    .mail-footer p { margin-bottom: 14px; color: #d1ded0; font-size: 12px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 10px 18px; margin: 20px 0; font-size: 11px; text-decoration: underline; }
+    .footer-label { color: #d1ded0; font-size: 11px; }
+    .page-end { padding: 22px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 32px, 560px); }
+      .hero { grid-template-columns: 1fr; gap: 30px; padding: 50px 0 60px; }
+      .signup { padding: 25px; }
+      .strategy, .preview { padding: 60px 0; }
+      .section-heading { display: block; }
+      .section-heading > p { margin-top: 15px; }
+      .cards { grid-template-columns: 1fr; }
+      .card-top { margin-bottom: 18px; }
+      .mail-meta { padding: 18px 22px; }
+      .email-body, .mail-footer { padding: 34px 24px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="announcement">A little more to look forward to &nbsp; ✳ &nbsp; The BNC email edit</div>
+  <header class="wrap header">
+    <a class="logo" href="#top" aria-label="BNC home">BNC<span>.</span></a>
+    <div class="header-note">Good things, delivered<br>straight to your inbox</div>
+  </header>
+
+  <main id="top">
+    <section class="wrap hero" aria-labelledby="signup-heading">
+      <div>
+        <div class="eyebrow">01 / An invitation from BNC</div>
+        <h1>A little more <em>good</em> in your inbox.</h1>
+        <p class="intro">The best of BNC, thoughtfully delivered. Sign up for special offers, fresh updates, and little things worth sharing.</p>
+        <div class="benefit"><span class="benefit-icon" aria-hidden="true">✳</span> A welcome offer, just for joining</div>
+      </div>
+      <div class="signup">
+        <div class="eyebrow">A note from us to you</div>
+        <h2 id="signup-heading">Let's keep in touch.</h2>
+        <p>Join the BNC community and get a proposed 15% welcome offer after confirming your email.</p>
+        <div class="demo-note"><strong>Strategy prototype:</strong> This form is a demo. It does not collect addresses, send confirmations, or issue offers yet.</div>
+        <form id="signup-form">
+          <label class="field" for="email">Email address <span>(required)</span></label>
+          <input id="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <label class="field" for="first-name">First name <span>(optional)</span></label>
+          <input id="first-name" type="text" autocomplete="given-name" placeholder="Your first name">
+          <label class="consent"><input type="checkbox" required> <span>I agree to receive marketing emails from BNC <strong>(required)</strong>.</span></label>
+          <button type="submit" disabled>Sign me up &nbsp; →</button>
+          <noscript><p class="fine-print">JavaScript is required to try this demo. No subscription will be created.</p></noscript>
+          <p class="fine-print">The plan: up to two emails a month with offers and updates. No spam, and your details won't be sold. Confirm your subscription via a double opt-in email; unsubscribe anytime.</p>
+          <p id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="strategy" aria-labelledby="strategy-heading">
+      <div class="wrap">
+        <div class="section-heading">
+          <div><div class="eyebrow">02 / Grow with intention</div><h2 id="strategy-heading">Good relationships<br>start here.</h2></div>
+          <p>Three ways to meet people where they are, with a reason to join today and a reason to stay tomorrow.</p>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">⌂</span><span class="section-number">01 / In person</span></div>
+            <h3>In-store customers</h3>
+            <dl>
+              <dt>Meet them</dt><dd>Invite customers at checkout to scan a sign-up QR code; staff explain that joining is optional.</dd>
+              <dt>Give them now</dt><dd>A 15% welcome offer after they confirm their email.</dd>
+              <dt>Keep them close</dt><dd>Subscriber-only offers and first access to what's new at BNC.</dd>
+            </dl>
+          </article>
+          <article class="card">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">↗</span><span class="section-number">02 / Online</span></div>
+            <h3>Website visitors</h3>
+            <dl>
+              <dt>Meet them</dt><dd>Use the website sign-up form and organic social posts to invite visitors to join.</dd>
+              <dt>Give them now</dt><dd>A 15% welcome offer after they confirm their email.</dd>
+              <dt>Keep them close</dt><dd>Thoughtful updates, useful ideas, and occasional subscriber offers.</dd>
+            </dl>
+          </article>
+          <article class="card">
+            <div class="card-top"><span class="card-icon" aria-hidden="true">✳</span><span class="section-number">03 / Out &amp; about</span></div>
+            <h3>Local event attendees</h3>
+            <dl>
+              <dt>Meet them</dt><dd>Share a sign-up QR code at community events and invite attendees in person.</dd>
+              <dt>Give them now</dt><dd>A 15% welcome offer after they confirm their email.</dd>
+              <dt>Keep them close</dt><dd>Early news about future events and special community offers.</dd>
+            </dl>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap preview" aria-labelledby="preview-heading">
+      <div class="section-heading">
+        <div><div class="eyebrow">03 / A note worth opening</div><h2 id="preview-heading">From our inbox<br>to theirs.</h2></div>
+        <p>A sample message for the whole list, a few months after joining. Designed to feel personal, useful, and easy to read.</p>
+      </div>
+      <div class="mailbox">
+        <div class="mailbar" aria-hidden="true"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="mailbar-label">Mailbox preview</span></div>
+        <div class="mail-meta">
+          <p><span>From</span> BNC</p>
+          <p><span>Subject</span> A little something from BNC</p>
+        </div>
+        <div class="email-body">
+          <div class="logo" aria-label="BNC">BNC<span>.</span></div>
+          <div class="eyebrow">A little note for you</div>
+          <h3 class="mail-title">Good things are<br>better shared.</h3>
+          <p>Hi [First Name],</p>
+          <p>It's been a little while since you joined us, and we're glad you're here. We have something special waiting for our community: a fresh look at what's happening at BNC.</p>
+          <p>Take a moment to explore our latest updates and discover something new to enjoy. Thanks for being part of our story.</p>
+          <p>See you soon,<br>The BNC team</p>
+          <span class="button">Explore what's new &nbsp; →</span>
+          <p class="landing-note">Planned landing page: the BNC “What's New” page. Link to be supplied by the client.</p>
+        </div>
+        <footer class="mail-footer">
+          <div class="mail-footer-inner">
+            <div class="logo" aria-label="BNC">BNC<span>.</span></div>
+            <p>Good things, made for sharing.</p>
+            <div class="footer-links" aria-label="Planned social links"><span>Instagram</span><span>Facebook</span></div>
+            <p>Physical mailing address: to be supplied by BNC<br>Customer support: contact details to be supplied by BNC</p>
+            <div class="footer-links" aria-label="Planned email footer links"><span>Privacy policy</span><span>Forward to a friend</span><span>Unsubscribe</span></div>
+            <div class="footer-label">Preview only · Footer links and contact details must be connected before sending.</div>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+  <div class="wrap page-end">BNC email strategy &nbsp; / &nbsp; A thoughtful approach to staying connected</div>
+  <script>
+    const form = document.getElementById('signup-form');
+    form.querySelector('button').disabled = false;
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      this.reset();
+      document.getElementById('form-status').textContent = 'Demo only: no information was saved or sent, and you are not subscribed.';
+    });
+  </script>
+</body>
+</html>
